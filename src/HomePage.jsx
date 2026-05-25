@@ -21,6 +21,7 @@ export default function HomePage() {
   const [isAdminHovered, setIsAdminHovered] = useState(false);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [showIntro, setShowIntro] = useState(true);
+  const [isMobile, setIsMobile] = useState(() => window.innerWidth <= 768);
 
   const [visibleSections, setVisibleSections] = useState({
     hakkimda: false,
@@ -40,7 +41,12 @@ export default function HomePage() {
       setIsScrolled(window.scrollY > 30);
     }
 
+    function handleResize() {
+      setIsMobile(window.innerWidth <= 768);
+    }
+
     window.addEventListener("scroll", handleScroll);
+    window.addEventListener("resize", handleResize);
 
     const observer = new IntersectionObserver(
       (entries) => {
@@ -70,6 +76,7 @@ export default function HomePage() {
     return () => {
       clearTimeout(introTimer);
       window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener("resize", handleResize);
       observer.disconnect();
     };
   }, []);
@@ -229,6 +236,24 @@ export default function HomePage() {
             transform: translateX(0);
           }
         }
+
+        * {
+          box-sizing: border-box;
+        }
+
+        html,
+        body,
+        #root {
+          max-width: 100%;
+          overflow-x: hidden;
+        }
+
+        @media (max-width: 768px) {
+          a,
+          button {
+            -webkit-tap-highlight-color: transparent;
+          }
+        }
       `}
     </style>
 
@@ -236,18 +261,31 @@ export default function HomePage() {
       <div style={bgGlow2}></div>
 
       <header style={isScrolled ? scrolledHeaderStyle : headerStyle}>
-        <div style={isScrolled ? scrolledHeaderInner : headerInner}>
+        <div
+          style={{
+            ...(isScrolled ? scrolledHeaderInner : headerInner),
+            ...(isMobile ? mobileHeaderInner : {}),
+          }}
+        >
           <div style={logoContainer}>
-            <div style={isScrolled ? scrolledLogoBox : logoBox}>
+            <div
+              style={{
+                ...(isScrolled ? scrolledLogoBox : logoBox),
+                ...(isMobile ? mobileLogoBox : {}),
+              }}
+            >
               <img
                 src="/logo-icon.png"
                 alt="Av. Aysel Sarı Çalışkan"
-                style={isScrolled ? scrolledLogoStyle : logoStyle}
+                style={{
+                  ...(isScrolled ? scrolledLogoStyle : logoStyle),
+                  ...(isMobile ? mobileLogoStyle : {}),
+                }}
               />
             </div>
           </div>
 
-          <nav style={navStyle}>
+          <nav style={{ ...navStyle, ...(isMobile ? mobileNavStyle : {}) }}>
             <a
               href="#hakkimda"
               style={{
@@ -310,7 +348,7 @@ export default function HomePage() {
           </nav>
           <button
   type="button"
-  style={hamburgerButton}
+  style={{ ...hamburgerButton, ...(isMobile ? mobileHamburgerButton : {}) }}
   onClick={() => setIsDrawerOpen(true)}
   aria-label="Menüyü aç"
 >
@@ -393,28 +431,28 @@ export default function HomePage() {
     </aside>
   </div>
 )}
-<section style={heroStyle}>
+<section style={{ ...heroStyle, ...(isMobile ? mobileHeroStyle : {}) }}>
   <div style={overlayStyle}></div>
   <div style={heroGlow}></div>
 
-  <div style={heroContentWrapper}>
-    <div style={heroGrid}>
+  <div style={{ ...heroContentWrapper, ...(isMobile ? mobileHeroContentWrapper : {}) }}>
+    <div style={{ ...heroGrid, ...(isMobile ? mobileHeroGrid : {}) }}>
       <div style={heroContentStyle}>
         <p style={heroTopText}>HUKUK & DANIŞMANLIK HİZMETLERİ</p>
 
-        <h2 style={heroTitle}>
+        <h2 style={{ ...heroTitle, ...(isMobile ? mobileHeroTitle : {}) }}>
           Haklarınızı koruyan
           <br />
           güvenilir hukuki destek
         </h2>
 
-        <p style={heroText}>
+        <p style={{ ...heroText, ...(isMobile ? mobileHeroText : {}) }}>
           Aile hukuku, miras hukuku, iş hukuku, gayrimenkul hukuku, icra ve
           iflas hukuku alanlarında; her dosyaya özel analiz, şeffaf
           bilgilendirme ve çözüm odaklı hukuki yol haritası sunuyorum.
         </p>
 
-        <div style={heroButtonsStyle}>
+        <div style={{ ...heroButtonsStyle, ...(isMobile ? mobileHeroButtonsStyle : {}) }}>
           <a
             href="#iletisim"
             style={primaryButton}
@@ -448,7 +486,7 @@ export default function HomePage() {
           </a>
         </div>
 
-        <div style={statsRow}>
+        <div style={{ ...statsRow, ...(isMobile ? mobileStatsRow : {}) }}>
           <div style={statCard}>
             <h3 style={statNumber}>2019</h3>
             <p style={statLabel}>Mesleki Başlangıç</p>
@@ -462,7 +500,7 @@ export default function HomePage() {
         </div>
       </div>
 
-      <div style={heroServicePanel}>
+      <div style={{ ...heroServicePanel, ...(isMobile ? mobileHeroServicePanel : {}) }}>
         <div style={heroServiceCard}>
           <span style={heroServiceNumber}>01</span>
           <h3 style={heroServiceTitle}>Hızlı Analiz</h3>
@@ -500,11 +538,11 @@ export default function HomePage() {
     ...(visibleSections.hakkimda ? sectionVisibleStyle : sectionHiddenStyle),
   }}
 >
-  <div style={contentContainer}>
-    <div style={aboutGrid}>
+  <div style={{ ...contentContainer, ...(isMobile ? mobileContentContainer : {}) }}>
+    <div style={{ ...aboutGrid, ...(isMobile ? mobileTwoColumnGrid : {}) }}>
       <div>
         <p style={sectionEyebrow}>KURUMSAL YAKLAŞIM</p>
-        <h3 style={aboutTitle}>Hakkımızda</h3>
+        <h3 style={{ ...aboutTitle, ...(isMobile ? mobileAboutTitle : {}) }}>Hakkımızda</h3>
 
         <p style={aboutText}>
           Ben Avukat Aysel Kübra Sarı Çalışkan. 2019 yılında İstanbul Aydın Üniversitesi
@@ -520,7 +558,7 @@ export default function HomePage() {
           bir süreç olarak görüyorum.
         </p>
 
-        <div style={aboutInfoGrid}>
+        <div style={{ ...aboutInfoGrid, ...(isMobile ? mobileAboutInfoGrid : {}) }}>
           <div style={aboutInfoCard}>
             <strong>Güvenilir Hizmet</strong>
             <span>Şeffaf ve düzenli bilgilendirme</span>
@@ -538,7 +576,7 @@ export default function HomePage() {
         </div>
       </div>
 
-      <div style={aboutImageBox}>
+      <div style={{ ...aboutImageBox, ...(isMobile ? mobileAboutImageBox : {}) }}>
         <img src={hakkimdaFoto} alt="Hakkımızda" style={aboutImage} />
       </div>
     </div>
@@ -553,12 +591,12 @@ export default function HomePage() {
     ...(visibleSections.alanlar ? sectionVisibleStyle : sectionHiddenStyle),
   }}
 >
-  <div style={contentContainer}>
+  <div style={{ ...contentContainer, ...(isMobile ? mobileContentContainer : {}) }}>
     <div style={sectionDivider}></div>
     <p style={sectionEyebrow}>FAALİYET ALANLARIMIZ</p>
-    <h3 style={sectionTitle}>Hukuki Hizmetlerimiz</h3>
+    <h3 style={{ ...sectionTitle, ...(isMobile ? mobileSectionTitle : {}) }}>Hukuki Hizmetlerimiz</h3>
 
-    <div style={practiceGrid}>
+    <div style={{ ...practiceGrid, ...(isMobile ? mobilePracticeGrid : {}) }}>
       {practiceAreas.map((area, index) => (
         <article
           key={area.title}
@@ -597,13 +635,13 @@ export default function HomePage() {
   </div>
 </section>
 
-      <section style={trustSectionStyle}>
-        <div style={contentContainer}>
-          <div style={trustGrid}>
+      <section style={{ ...trustSectionStyle, ...(isMobile ? mobileTrustSectionStyle : {}) }}>
+        <div style={{ ...contentContainer, ...(isMobile ? mobileContentContainer : {}) }}>
+          <div style={{ ...trustGrid, ...(isMobile ? mobileTwoColumnGrid : {}) }}>
             <div>
               <p style={sectionEyebrow}>HIZLI • ETKİLİ • GÜVENİLİR</p>
       
-              <h3 style={trustTitle}>
+              <h3 style={{ ...trustTitle, ...(isMobile ? mobileTrustTitle : {}) }}>
                 Hukuki süreçlerinizi doğru stratejiyle yönetiyoruz
               </h3>
       
@@ -624,7 +662,7 @@ export default function HomePage() {
               </a>
             </div>
       
-            <div style={trustPanel}>
+            <div style={{ ...trustPanel, ...(isMobile ? mobileTrustPanel : {}) }}>
               <div style={progressItem}>
                 <div style={progressTop}>
                   <span>Güvenilirlik</span>
@@ -655,7 +693,7 @@ export default function HomePage() {
                 </div>
               </div>
       
-              <div style={trustMiniCards}>
+              <div style={{ ...trustMiniCards, ...(isMobile ? mobileTrustMiniCards : {}) }}>
                 <div style={trustMiniCard}>
                   <strong>2019</strong>
                   <span>Mesleki Başlangıç</span>
@@ -680,10 +718,10 @@ export default function HomePage() {
           ...(visibleSections.makaleler ? sectionVisibleStyle : sectionHiddenStyle),
         }}
       >
-        <div style={contentContainer}>
+        <div style={{ ...contentContainer, ...(isMobile ? mobileContentContainer : {}) }}>
           <div style={sectionDivider}></div>
           <p style={sectionEyebrow}>HUKUKİ YAYINLAR</p>
-          <h3 style={sectionTitle}>Makaleler</h3>
+          <h3 style={{ ...sectionTitle, ...(isMobile ? mobileSectionTitle : {}) }}>Makaleler</h3>
           <p style={sectionIntroText}>
             Hukukun farklı alanlarına ilişkin güncel değerlendirmeler, bilgilendirici
             içerikler ve dikkat edilmesi gereken temel hususlar.
@@ -713,7 +751,7 @@ export default function HomePage() {
             </div>
           ) : (
             <div style={professionalArticlesWrap}>
-              <div style={articleToolbar}>
+              <div style={{ ...articleToolbar, ...(isMobile ? mobileArticleToolbar : {}) }}>
                 <div>
                   <p style={articleToolbarLabel}>YAYINLANMIŞ İÇERİKLER</p>
                   <h4 style={articleToolbarTitle}>Güncel Hukuki Makaleler</h4>
@@ -725,7 +763,7 @@ export default function HomePage() {
                 </div>
               </div>
 
-              <div style={articleGrid}>
+              <div style={{ ...articleGrid, ...(isMobile ? mobileArticleGrid : {}) }}>
                 {filteredArticles.map((article, index) => (
                   <article
                     key={article.id}
@@ -807,17 +845,17 @@ export default function HomePage() {
           ...(visibleSections.iletisim ? sectionVisibleStyle : sectionHiddenStyle),
         }}
       >
-        <div style={contentContainer}>
+        <div style={{ ...contentContainer, ...(isMobile ? mobileContentContainer : {}) }}>
           <div style={sectionDividerLight}></div>
           <p style={sectionEyebrowLight}>İLETİŞİM</p>
-          <h3 style={contactTitle}>Hukuki destek için iletişime geçin</h3>
+          <h3 style={{ ...contactTitle, ...(isMobile ? mobileContactTitle : {}) }}>Hukuki destek için iletişime geçin</h3>
           <p style={contactText}>
             Sorularınız, ön görüşme talepleriniz ve hukuki danışmanlık ihtiyaçlarınız
             için aşağıdaki iletişim bilgilerini kullanabilir veya form üzerinden
             doğrudan e-posta oluşturabilirsiniz.
           </p>
 
-          <div style={contactGrid}>
+          <div style={{ ...contactGrid, ...(isMobile ? mobileContactGrid : {}) }}>
             <div
               style={contactCard}
               onMouseEnter={(e) => {
@@ -921,7 +959,10 @@ export default function HomePage() {
         target="_blank"
         rel="noopener noreferrer"
         aria-label="WhatsApp ile iletişime geç"
-        style={whatsappFloatButton}
+        style={{
+          ...whatsappFloatButton,
+          ...(isMobile ? mobileWhatsappButton : {}),
+        }}
         onMouseEnter={(e) => {
           e.currentTarget.style.transform = "translateY(-4px) scale(1.04)";
           e.currentTarget.style.boxShadow =
@@ -949,7 +990,7 @@ export default function HomePage() {
       <footer style={footerStyle}>
   <div style={footerTopLine}></div>
 
-  <div style={footerContainer}>
+  <div style={{ ...footerContainer, ...(isMobile ? mobileFooterContainer : {}) }}>
     <div style={footerBrandColumn}>
       <div style={footerLogoRow}>
         <div style={footerLogoBox}>
@@ -1018,7 +1059,7 @@ export default function HomePage() {
     </div>
   </div>
 
-  <div style={footerBottom}>
+  <div style={{ ...footerBottom, ...(isMobile ? mobileFooterBottom : {}) }}>
     <span>© 2026 Av. Aysel Sarı Çalışkan - Tüm hakları saklıdır.</span>
     <span style={footerBottomRight}>Profesyonel Hukuki Danışmanlık</span>
   </div>
@@ -2803,3 +2844,164 @@ const introText = {
   fontWeight: "800",
   textAlign: "center",
 };
+
+
+/* MOBİL UYUMLULUK STİLLERİ */
+const mobileHeaderInner = {
+  width: "calc(100% - 24px)",
+  padding: "8px 0",
+  gap: "10px",
+};
+
+const mobileLogoBox = {
+  width: "210px",
+  height: "58px",
+  overflow: "hidden",
+  flexShrink: 1,
+};
+
+const mobileLogoStyle = {
+  width: "200px",
+  maxHeight: "54px",
+  transform: "scale(1)",
+  objectPosition: "left center",
+};
+
+const mobileNavStyle = {
+  display: "none",
+};
+
+const mobileHamburgerButton = {
+  display: "flex",
+  flexShrink: 0,
+};
+
+const mobileContentContainer = {
+  width: "calc(100% - 28px)",
+};
+
+const mobileHeroStyle = {
+  minHeight: "auto",
+  backgroundPosition: "center center",
+};
+
+const mobileHeroContentWrapper = {
+  width: "calc(100% - 28px)",
+  minHeight: "auto",
+  padding: "68px 0 52px 0",
+};
+
+const mobileHeroGrid = {
+  gridTemplateColumns: "1fr",
+  gap: "28px",
+};
+
+const mobileHeroTitle = {
+  fontSize: "42px",
+  lineHeight: 1.12,
+  letterSpacing: "-0.8px",
+};
+
+const mobileHeroText = {
+  fontSize: "16px",
+  lineHeight: 1.75,
+  maxWidth: "100%",
+};
+
+const mobileHeroButtonsStyle = {
+  flexDirection: "column",
+  gap: "12px",
+};
+
+const mobileStatsRow = {
+  display: "grid",
+  gridTemplateColumns: "repeat(2, minmax(0, 1fr))",
+  gap: "12px",
+};
+
+const mobileHeroServicePanel = {
+  gap: "14px",
+};
+
+const mobileTwoColumnGrid = {
+  gridTemplateColumns: "1fr",
+  gap: "30px",
+};
+
+const mobileAboutInfoGrid = {
+  gridTemplateColumns: "1fr",
+};
+
+const mobileAboutImageBox = {
+  height: "340px",
+  borderRadius: "22px",
+};
+
+const mobilePracticeGrid = {
+  gridTemplateColumns: "1fr",
+  gap: "22px",
+};
+
+const mobileTrustSectionStyle = {
+  padding: "72px 0",
+};
+
+const mobileTrustPanel = {
+  padding: "24px",
+  borderRadius: "22px",
+};
+
+const mobileTrustMiniCards = {
+  gridTemplateColumns: "1fr",
+};
+
+const mobileArticleToolbar = {
+  flexDirection: "column",
+  alignItems: "flex-start",
+};
+
+const mobileArticleGrid = {
+  gridTemplateColumns: "1fr",
+  gap: "22px",
+};
+
+const mobileContactGrid = {
+  gridTemplateColumns: "1fr",
+};
+
+const mobileFooterContainer = {
+  gridTemplateColumns: "1fr",
+  gap: "28px",
+  padding: "44px 0 32px 0",
+};
+
+const mobileFooterBottom = {
+  flexDirection: "column",
+  alignItems: "flex-start",
+};
+
+const mobileWhatsappButton = {
+  right: "14px",
+  bottom: "14px",
+  height: "56px",
+  minWidth: "56px",
+  padding: "0 14px",
+};
+
+const mobileSectionTitle = {
+  fontSize: "32px",
+  lineHeight: 1.2,
+};
+
+const mobileAboutTitle = {
+  fontSize: "34px",
+};
+
+const mobileTrustTitle = {
+  fontSize: "34px",
+};
+
+const mobileContactTitle = {
+  fontSize: "32px",
+};
+
