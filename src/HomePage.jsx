@@ -21,7 +21,6 @@ export default function HomePage() {
   const [isAdminHovered, setIsAdminHovered] = useState(false);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [showIntro, setShowIntro] = useState(true);
-  const [isMobile, setIsMobile] = useState(() => window.innerWidth <= 768);
 
   const [visibleSections, setVisibleSections] = useState({
     hakkimda: false,
@@ -41,12 +40,7 @@ export default function HomePage() {
       setIsScrolled(window.scrollY > 30);
     }
 
-    function handleResize() {
-      setIsMobile(window.innerWidth <= 768);
-    }
-
     window.addEventListener("scroll", handleScroll);
-    window.addEventListener("resize", handleResize);
 
     const observer = new IntersectionObserver(
       (entries) => {
@@ -76,7 +70,6 @@ export default function HomePage() {
     return () => {
       clearTimeout(introTimer);
       window.removeEventListener("scroll", handleScroll);
-      window.removeEventListener("resize", handleResize);
       observer.disconnect();
     };
   }, []);
@@ -167,7 +160,7 @@ export default function HomePage() {
   ];
 
   return (
-    <div style={pageStyle}>
+    <div className="home-page" style={pageStyle}>
     {showIntro && (
       <div style={introOverlay}>
         <div style={introLogoWrap}>
@@ -237,55 +230,233 @@ export default function HomePage() {
           }
         }
 
-        * {
-          box-sizing: border-box;
-        }
+        @media (max-width: 1024px) {
+          .home-page, .home-page * { box-sizing: border-box; }
+          .home-page { overflow-x: hidden !important; }
 
-        html,
-        body,
-        #root {
-          max-width: 100%;
-          overflow-x: hidden;
-        }
+          .home-header-inner {
+            width: calc(100% - 28px) !important;
+            min-height: 74px !important;
+            padding: 8px 0 !important;
+            gap: 12px !important;
+          }
 
-        @media (max-width: 768px) {
-          a,
-          button {
-            -webkit-tap-highlight-color: transparent;
+          .home-logo-box {
+            width: min(260px, calc(100vw - 92px)) !important;
+            height: 58px !important;
+            overflow: hidden !important;
+            flex-shrink: 1 !important;
+          }
+
+          .home-logo-img {
+            width: 100% !important;
+            max-height: 56px !important;
+            transform: none !important;
+            object-fit: contain !important;
+            object-position: left center !important;
+            mix-blend-mode: multiply !important;
+          }
+
+          .home-nav { display: none !important; }
+          .home-hamburger { display: flex !important; flex-shrink: 0 !important; }
+
+          .home-hero {
+            min-height: auto !important;
+            background-position: center center !important;
+          }
+
+          .home-hero-wrap {
+            width: calc(100% - 32px) !important;
+            min-height: auto !important;
+            padding: 64px 0 48px 0 !important;
+            align-items: flex-start !important;
+          }
+
+          .home-hero-grid {
+            grid-template-columns: 1fr !important;
+            gap: 22px !important;
+            align-items: stretch !important;
+          }
+
+          .home-hero-content { max-width: 100% !important; text-align: left !important; }
+
+          .home-hero-title {
+            font-size: clamp(38px, 10.2vw, 52px) !important;
+            line-height: 1.08 !important;
+            letter-spacing: -1.1px !important;
+            margin-bottom: 18px !important;
+          }
+
+          .home-hero-text {
+            max-width: 100% !important;
+            font-size: 16px !important;
+            line-height: 1.75 !important;
+            margin-bottom: 24px !important;
+          }
+
+          .home-hero-buttons {
+            display: grid !important;
+            grid-template-columns: 1fr !important;
+            gap: 12px !important;
+            width: 100% !important;
+            margin-bottom: 22px !important;
+          }
+
+          .home-hero-buttons a {
+            width: 100% !important;
+            text-align: center !important;
+            padding: 14px 16px !important;
+          }
+
+          .home-stats {
+            display: grid !important;
+            grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+            gap: 12px !important;
+          }
+
+          .home-stat-card {
+            min-width: 0 !important;
+            padding: 15px 10px !important;
+            text-align: center !important;
+          }
+
+          .home-service-panel { gap: 14px !important; }
+          .home-service-card { padding: 20px !important; border-radius: 20px !important; }
+
+          .home-container {
+            width: calc(100% - 32px) !important;
+            max-width: 720px !important;
+          }
+
+          .home-about-section,
+          .home-areas-section,
+          .home-trust-section,
+          .home-articles-section,
+          .home-contact-section {
+            padding: 58px 0 !important;
+          }
+
+          .home-about-grid,
+          .home-trust-grid,
+          .home-footer-container {
+            grid-template-columns: 1fr !important;
+            gap: 28px !important;
+          }
+
+          .home-about-title,
+          .home-section-title,
+          .home-trust-title,
+          .home-contact-title {
+            font-size: clamp(30px, 8.4vw, 38px) !important;
+            line-height: 1.18 !important;
+            text-align: center !important;
+            margin-bottom: 18px !important;
+          }
+
+          .home-about-text,
+          .home-trust-text,
+          .home-section-intro,
+          .home-contact-text {
+            max-width: 100% !important;
+            font-size: 15.5px !important;
+            line-height: 1.82 !important;
+            text-align: center !important;
+          }
+
+          .home-about-info-grid,
+          .home-practice-grid,
+          .home-article-grid,
+          .home-contact-grid {
+            grid-template-columns: 1fr !important;
+            gap: 18px !important;
+          }
+
+          .home-about-img-box {
+            height: min(430px, 90vw) !important;
+            border-radius: 22px !important;
+          }
+
+          .home-practice-card,
+          .home-article-card,
+          .home-contact-card {
+            border-radius: 22px !important;
+            width: 100% !important;
+          }
+
+          .home-practice-img-wrap { height: 215px !important; }
+          .home-practice-content { padding: 0 22px 28px 22px !important; }
+          .home-practice-title { font-size: 22px !important; }
+
+          .home-article-toolbar {
+            display: grid !important;
+            grid-template-columns: 1fr !important;
+            text-align: center !important;
+            padding: 20px !important;
+            gap: 16px !important;
+          }
+
+          .home-article-toolbar-info {
+            width: 100% !important;
+            min-width: 0 !important;
+          }
+
+          .home-article-card {
+            min-height: auto !important;
+            padding: 22px !important;
+          }
+
+          .home-footer-container {
+            width: calc(100% - 32px) !important;
+            padding: 44px 0 30px 0 !important;
+          }
+
+          .home-footer-bottom {
+            width: calc(100% - 32px) !important;
+            justify-content: center !important;
+            text-align: center !important;
+          }
+
+          .home-whatsapp {
+            right: 14px !important;
+            bottom: 14px !important;
+            height: 56px !important;
+            min-width: 56px !important;
+            padding: 0 14px !important;
           }
         }
+
+        @media (max-width: 520px) {
+          .home-header-inner { width: calc(100% - 20px) !important; }
+          .home-logo-box { width: min(220px, calc(100vw - 82px)) !important; height: 54px !important; }
+          .home-logo-img { max-height: 52px !important; }
+          .home-hero-wrap { width: calc(100% - 24px) !important; padding: 54px 0 42px 0 !important; }
+          .home-container { width: calc(100% - 24px) !important; }
+          .home-hero-title { font-size: clamp(34px, 11.2vw, 44px) !important; }
+          .home-stats { grid-template-columns: 1fr !important; }
+          .home-whatsapp-text { display: none !important; }
+          .home-whatsapp { border-radius: 50% !important; width: 56px !important; padding: 0 !important; }
+        }
+
       `}
     </style>
 
       <div style={bgGlow1}></div>
       <div style={bgGlow2}></div>
 
-      <header style={isScrolled ? scrolledHeaderStyle : headerStyle}>
-        <div
-          style={{
-            ...(isScrolled ? scrolledHeaderInner : headerInner),
-            ...(isMobile ? mobileHeaderInner : {}),
-          }}
-        >
+      <header className="home-header" style={isScrolled ? scrolledHeaderStyle : headerStyle}>
+        <div className="home-header-inner" style={isScrolled ? scrolledHeaderInner : headerInner}>
           <div style={logoContainer}>
-            <div
-              style={{
-                ...(isScrolled ? scrolledLogoBox : logoBox),
-                ...(isMobile ? mobileLogoBox : {}),
-              }}
-            >
+            <div className="home-logo-box" style={isScrolled ? scrolledLogoBox : logoBox}>
               <img
                 src="/logo-icon.png"
                 alt="Av. Aysel Sarı Çalışkan"
-                style={{
-                  ...(isScrolled ? scrolledLogoStyle : logoStyle),
-                  ...(isMobile ? mobileLogoStyle : {}),
-                }}
+                className="home-logo-img"
+                style={isScrolled ? scrolledLogoStyle : logoStyle}
               />
             </div>
           </div>
 
-          <nav style={{ ...navStyle, ...(isMobile ? mobileNavStyle : {}) }}>
+          <nav className="home-nav" style={navStyle}>
             <a
               href="#hakkimda"
               style={{
@@ -348,7 +519,8 @@ export default function HomePage() {
           </nav>
           <button
   type="button"
-  style={{ ...hamburgerButton, ...(isMobile ? mobileHamburgerButton : {}) }}
+  className="home-hamburger"
+  style={hamburgerButton}
   onClick={() => setIsDrawerOpen(true)}
   aria-label="Menüyü aç"
 >
@@ -431,28 +603,28 @@ export default function HomePage() {
     </aside>
   </div>
 )}
-<section style={{ ...heroStyle, ...(isMobile ? mobileHeroStyle : {}) }}>
+<section className="home-hero" style={heroStyle}>
   <div style={overlayStyle}></div>
   <div style={heroGlow}></div>
 
-  <div style={{ ...heroContentWrapper, ...(isMobile ? mobileHeroContentWrapper : {}) }}>
-    <div style={{ ...heroGrid, ...(isMobile ? mobileHeroGrid : {}) }}>
-      <div style={heroContentStyle}>
+  <div className="home-hero-wrap" style={heroContentWrapper}>
+    <div className="home-hero-grid" style={heroGrid}>
+      <div className="home-hero-content" style={heroContentStyle}>
         <p style={heroTopText}>HUKUK & DANIŞMANLIK HİZMETLERİ</p>
 
-        <h2 style={{ ...heroTitle, ...(isMobile ? mobileHeroTitle : {}) }}>
+        <h2 className="home-hero-title" style={heroTitle}>
           Haklarınızı koruyan
           <br />
           güvenilir hukuki destek
         </h2>
 
-        <p style={{ ...heroText, ...(isMobile ? mobileHeroText : {}) }}>
+        <p className="home-hero-text" style={heroText}>
           Aile hukuku, miras hukuku, iş hukuku, gayrimenkul hukuku, icra ve
           iflas hukuku alanlarında; her dosyaya özel analiz, şeffaf
           bilgilendirme ve çözüm odaklı hukuki yol haritası sunuyorum.
         </p>
 
-        <div style={{ ...heroButtonsStyle, ...(isMobile ? mobileHeroButtonsStyle : {}) }}>
+        <div className="home-hero-buttons" style={heroButtonsStyle}>
           <a
             href="#iletisim"
             style={primaryButton}
@@ -486,13 +658,13 @@ export default function HomePage() {
           </a>
         </div>
 
-        <div style={{ ...statsRow, ...(isMobile ? mobileStatsRow : {}) }}>
-          <div style={statCard}>
+        <div className="home-stats" style={statsRow}>
+          <div className="home-stat-card" style={statCard}>
             <h3 style={statNumber}>2019</h3>
             <p style={statLabel}>Mesleki Başlangıç</p>
           </div>
 
-          <div style={statCard}>
+          <div className="home-stat-card" style={statCard}>
             <h3 style={statNumber}>6</h3>
             <p style={statLabel}>Faaliyet Alanı</p>
           </div>
@@ -500,8 +672,8 @@ export default function HomePage() {
         </div>
       </div>
 
-      <div style={{ ...heroServicePanel, ...(isMobile ? mobileHeroServicePanel : {}) }}>
-        <div style={heroServiceCard}>
+      <div className="home-service-panel" style={heroServicePanel}>
+        <div className="home-service-card" style={heroServiceCard}>
           <span style={heroServiceNumber}>01</span>
           <h3 style={heroServiceTitle}>Hızlı Analiz</h3>
           <p style={heroServiceText}>
@@ -509,7 +681,7 @@ export default function HomePage() {
           </p>
         </div>
 
-        <div style={heroServiceCard}>
+        <div className="home-service-card" style={heroServiceCard}>
           <span style={heroServiceNumber}>02</span>
           <h3 style={heroServiceTitle}>Şeffaf Bilgilendirme</h3>
           <p style={heroServiceText}>
@@ -517,7 +689,7 @@ export default function HomePage() {
           </p>
         </div>
 
-        <div style={heroServiceCard}>
+        <div className="home-service-card" style={heroServiceCard}>
           <span style={heroServiceNumber}>03</span>
           <h3 style={heroServiceTitle}>Stratejik Yol Haritası</h3>
           <p style={heroServiceText}>
@@ -533,18 +705,19 @@ export default function HomePage() {
 
      <section
   id="hakkimda"
+  className="home-about-section"
   style={{
     ...aboutSectionStyle,
     ...(visibleSections.hakkimda ? sectionVisibleStyle : sectionHiddenStyle),
   }}
 >
-  <div style={{ ...contentContainer, ...(isMobile ? mobileContentContainer : {}) }}>
-    <div style={{ ...aboutGrid, ...(isMobile ? mobileTwoColumnGrid : {}) }}>
+  <div className="home-container" style={contentContainer}>
+    <div className="home-about-grid" style={aboutGrid}>
       <div>
         <p style={sectionEyebrow}>KURUMSAL YAKLAŞIM</p>
-        <h3 style={{ ...aboutTitle, ...(isMobile ? mobileAboutTitle : {}) }}>Hakkımızda</h3>
+        <h3 className="home-about-title" style={aboutTitle}>Hakkımızda</h3>
 
-        <p style={aboutText}>
+        <p className="home-about-text" style={aboutText}>
           Ben Avukat Aysel Kübra Sarı Çalışkan. 2019 yılında İstanbul Aydın Üniversitesi
           Hukuk Fakültesi’nden mezun oldum. Mezuniyetimin ardından Türkiye’nin
           önde gelen hukuk bürolarından Pehlivan Hukuk Bürosu’nda stajyer
@@ -552,13 +725,13 @@ export default function HomePage() {
           yaptım.
         </p>
 
-        <p style={aboutText}>
+        <p className="home-about-text" style={aboutText}>
           Avukatlık mesleğini yalnızca dava takibi olarak değil; doğru analiz,
           etkili iletişim, stratejik düşünme ve güven ilişkisi üzerine kurulu
           bir süreç olarak görüyorum.
         </p>
 
-        <div style={{ ...aboutInfoGrid, ...(isMobile ? mobileAboutInfoGrid : {}) }}>
+        <div className="home-about-info-grid" style={aboutInfoGrid}>
           <div style={aboutInfoCard}>
             <strong>Güvenilir Hizmet</strong>
             <span>Şeffaf ve düzenli bilgilendirme</span>
@@ -576,7 +749,7 @@ export default function HomePage() {
         </div>
       </div>
 
-      <div style={{ ...aboutImageBox, ...(isMobile ? mobileAboutImageBox : {}) }}>
+      <div className="home-about-img-box" style={aboutImageBox}>
         <img src={hakkimdaFoto} alt="Hakkımızda" style={aboutImage} />
       </div>
     </div>
@@ -586,20 +759,22 @@ export default function HomePage() {
 
      <section
   id="alanlar"
+  className="home-areas-section"
   style={{
     ...areasSectionStyle,
     ...(visibleSections.alanlar ? sectionVisibleStyle : sectionHiddenStyle),
   }}
 >
-  <div style={{ ...contentContainer, ...(isMobile ? mobileContentContainer : {}) }}>
+  <div className="home-container" style={contentContainer}>
     <div style={sectionDivider}></div>
     <p style={sectionEyebrow}>FAALİYET ALANLARIMIZ</p>
-    <h3 style={{ ...sectionTitle, ...(isMobile ? mobileSectionTitle : {}) }}>Hukuki Hizmetlerimiz</h3>
+    <h3 className="home-section-title" style={sectionTitle}>Hukuki Hizmetlerimiz</h3>
 
-    <div style={{ ...practiceGrid, ...(isMobile ? mobilePracticeGrid : {}) }}>
+    <div className="home-practice-grid" style={practiceGrid}>
       {practiceAreas.map((area, index) => (
         <article
           key={area.title}
+          className="home-practice-card"
           style={practiceCard}
           onMouseEnter={(e) => {
             e.currentTarget.style.transform = "translateY(-8px)";
@@ -612,17 +787,17 @@ export default function HomePage() {
               "0 14px 32px rgba(74,53,33,0.09)";
           }}
         >
-          <div style={practiceImageWrap}>
+          <div className="home-practice-img-wrap" style={practiceImageWrap}>
             <img src={area.image} alt={area.title} style={practiceImage} />
             <div style={practiceImageOverlay}></div>
           </div>
 
-          <div style={practiceContent}>
+          <div className="home-practice-content" style={practiceContent}>
             <div style={practiceNumber}>
               {String(index + 1).padStart(2, "0")}
             </div>
 
-            <h4 style={practiceTitle}>{area.title}</h4>
+            <h4 className="home-practice-title" style={practiceTitle}>{area.title}</h4>
             <p style={practiceText}>{area.text}</p>
 
             <Link to="/calisma-alanlari" style={practiceLink}>
@@ -635,23 +810,23 @@ export default function HomePage() {
   </div>
 </section>
 
-      <section style={{ ...trustSectionStyle, ...(isMobile ? mobileTrustSectionStyle : {}) }}>
-        <div style={{ ...contentContainer, ...(isMobile ? mobileContentContainer : {}) }}>
-          <div style={{ ...trustGrid, ...(isMobile ? mobileTwoColumnGrid : {}) }}>
+      <section className="home-trust-section" style={trustSectionStyle}>
+        <div className="home-container" style={contentContainer}>
+          <div className="home-trust-grid" style={trustGrid}>
             <div>
               <p style={sectionEyebrow}>HIZLI • ETKİLİ • GÜVENİLİR</p>
       
-              <h3 style={{ ...trustTitle, ...(isMobile ? mobileTrustTitle : {}) }}>
+              <h3 className="home-trust-title" style={trustTitle}>
                 Hukuki süreçlerinizi doğru stratejiyle yönetiyoruz
               </h3>
       
-              <p style={trustText}>
+              <p className="home-trust-text" style={trustText}>
                 Her hukuki süreç kendi içinde farklı riskler ve ihtiyaçlar taşır.
                 Bu nedenle müvekkillerimize yalnızca dava takibi değil; doğru analiz,
                 açık bilgilendirme ve çözüm odaklı hukuki yol haritası sunuyoruz.
               </p>
       
-              <p style={trustText}>
+              <p className="home-trust-text" style={trustText}>
                 Aile hukuku, miras hukuku, iş hukuku, gayrimenkul hukuku, icra ve
                 iflas hukuku ile genel hukuki danışmanlık alanlarında güvenilir,
                 şeffaf ve düzenli hukuki destek sağlıyoruz.
@@ -662,7 +837,7 @@ export default function HomePage() {
               </a>
             </div>
       
-            <div style={{ ...trustPanel, ...(isMobile ? mobileTrustPanel : {}) }}>
+            <div style={trustPanel}>
               <div style={progressItem}>
                 <div style={progressTop}>
                   <span>Güvenilirlik</span>
@@ -693,7 +868,7 @@ export default function HomePage() {
                 </div>
               </div>
       
-              <div style={{ ...trustMiniCards, ...(isMobile ? mobileTrustMiniCards : {}) }}>
+              <div style={trustMiniCards}>
                 <div style={trustMiniCard}>
                   <strong>2019</strong>
                   <span>Mesleki Başlangıç</span>
@@ -713,16 +888,17 @@ export default function HomePage() {
 
       <section
         id="makaleler"
+        className="home-articles-section"
         style={{
           ...articlesSectionStyle,
           ...(visibleSections.makaleler ? sectionVisibleStyle : sectionHiddenStyle),
         }}
       >
-        <div style={{ ...contentContainer, ...(isMobile ? mobileContentContainer : {}) }}>
+        <div className="home-container" style={contentContainer}>
           <div style={sectionDivider}></div>
           <p style={sectionEyebrow}>HUKUKİ YAYINLAR</p>
-          <h3 style={{ ...sectionTitle, ...(isMobile ? mobileSectionTitle : {}) }}>Makaleler</h3>
-          <p style={sectionIntroText}>
+          <h3 className="home-section-title" style={sectionTitle}>Makaleler</h3>
+          <p className="home-section-intro" style={sectionIntroText}>
             Hukukun farklı alanlarına ilişkin güncel değerlendirmeler, bilgilendirici
             içerikler ve dikkat edilmesi gereken temel hususlar.
           </p>
@@ -751,22 +927,23 @@ export default function HomePage() {
             </div>
           ) : (
             <div style={professionalArticlesWrap}>
-              <div style={{ ...articleToolbar, ...(isMobile ? mobileArticleToolbar : {}) }}>
+              <div className="home-article-toolbar" style={articleToolbar}>
                 <div>
                   <p style={articleToolbarLabel}>YAYINLANMIŞ İÇERİKLER</p>
                   <h4 style={articleToolbarTitle}>Güncel Hukuki Makaleler</h4>
                 </div>
 
-                <div style={articleToolbarInfo}>
+                <div className="home-article-toolbar-info" style={articleToolbarInfo}>
                   <strong>{filteredArticles.length}</strong>
                   <span>makale listeleniyor</span>
                 </div>
               </div>
 
-              <div style={{ ...articleGrid, ...(isMobile ? mobileArticleGrid : {}) }}>
+              <div className="home-article-grid" style={articleGrid}>
                 {filteredArticles.map((article, index) => (
                   <article
                     key={article.id}
+                    className="home-article-card"
                     style={articleCard}
                     onMouseEnter={(e) => {
                       e.currentTarget.style.transform = "translateY(-8px)";
@@ -840,23 +1017,25 @@ export default function HomePage() {
 
       <section
         id="iletisim"
+        className="home-contact-section"
         style={{
           ...contactSectionStyle,
           ...(visibleSections.iletisim ? sectionVisibleStyle : sectionHiddenStyle),
         }}
       >
-        <div style={{ ...contentContainer, ...(isMobile ? mobileContentContainer : {}) }}>
+        <div className="home-container" style={contentContainer}>
           <div style={sectionDividerLight}></div>
           <p style={sectionEyebrowLight}>İLETİŞİM</p>
-          <h3 style={{ ...contactTitle, ...(isMobile ? mobileContactTitle : {}) }}>Hukuki destek için iletişime geçin</h3>
-          <p style={contactText}>
+          <h3 className="home-contact-title" style={contactTitle}>Hukuki destek için iletişime geçin</h3>
+          <p className="home-contact-text" style={contactText}>
             Sorularınız, ön görüşme talepleriniz ve hukuki danışmanlık ihtiyaçlarınız
             için aşağıdaki iletişim bilgilerini kullanabilir veya form üzerinden
             doğrudan e-posta oluşturabilirsiniz.
           </p>
 
-          <div style={{ ...contactGrid, ...(isMobile ? mobileContactGrid : {}) }}>
+          <div className="home-contact-grid" style={contactGrid}>
             <div
+              className="home-contact-card"
               style={contactCard}
               onMouseEnter={(e) => {
                 e.currentTarget.style.transform = "translateY(-4px)";
@@ -892,6 +1071,7 @@ export default function HomePage() {
             </div>
 
             <div
+              className="home-contact-card"
               style={contactCard}
               onMouseEnter={(e) => {
                 e.currentTarget.style.transform = "translateY(-4px)";
@@ -959,10 +1139,8 @@ export default function HomePage() {
         target="_blank"
         rel="noopener noreferrer"
         aria-label="WhatsApp ile iletişime geç"
-        style={{
-          ...whatsappFloatButton,
-          ...(isMobile ? mobileWhatsappButton : {}),
-        }}
+        className="home-whatsapp"
+        style={whatsappFloatButton}
         onMouseEnter={(e) => {
           e.currentTarget.style.transform = "translateY(-4px) scale(1.04)";
           e.currentTarget.style.boxShadow =
@@ -984,13 +1162,13 @@ export default function HomePage() {
             d="M16.04 3C8.88 3 3.06 8.82 3.06 15.98c0 2.29.6 4.53 1.75 6.5L3 29l6.68-1.75a12.9 12.9 0 0 0 6.36 1.62c7.16 0 12.98-5.82 12.98-12.98S23.2 3 16.04 3Zm0 23.68c-1.96 0-3.88-.53-5.55-1.54l-.4-.24-3.96 1.04 1.06-3.86-.26-.42a10.66 10.66 0 0 1-1.64-5.68c0-5.93 4.82-10.75 10.75-10.75s10.75 4.82 10.75 10.75-4.82 10.7-10.75 10.7Zm5.9-8.04c-.32-.16-1.9-.94-2.2-1.04-.3-.11-.51-.16-.73.16-.21.32-.84 1.04-1.03 1.25-.19.21-.38.24-.7.08-.32-.16-1.36-.5-2.59-1.6-.96-.86-1.6-1.92-1.79-2.24-.19-.32-.02-.49.14-.65.15-.15.32-.38.48-.57.16-.19.21-.32.32-.54.11-.21.05-.4-.03-.56-.08-.16-.73-1.76-1-2.41-.26-.63-.53-.54-.73-.55h-.62c-.21 0-.56.08-.86.4-.3.32-1.13 1.1-1.13 2.69s1.16 3.12 1.32 3.34c.16.21 2.28 3.48 5.52 4.88.77.33 1.37.53 1.84.68.77.24 1.47.21 2.03.13.62-.09 1.9-.78 2.17-1.53.27-.75.27-1.39.19-1.53-.08-.14-.29-.22-.61-.38Z"
           />
         </svg>
-        <span style={whatsappButtonText}>WhatsApp</span>
+        <span className="home-whatsapp-text" style={whatsappButtonText}>WhatsApp</span>
       </a>
 
       <footer style={footerStyle}>
   <div style={footerTopLine}></div>
 
-  <div style={{ ...footerContainer, ...(isMobile ? mobileFooterContainer : {}) }}>
+  <div className="home-footer-container" style={footerContainer}>
     <div style={footerBrandColumn}>
       <div style={footerLogoRow}>
         <div style={footerLogoBox}>
@@ -1059,7 +1237,7 @@ export default function HomePage() {
     </div>
   </div>
 
-  <div style={{ ...footerBottom, ...(isMobile ? mobileFooterBottom : {}) }}>
+  <div className="home-footer-bottom" style={footerBottom}>
     <span>© 2026 Av. Aysel Sarı Çalışkan - Tüm hakları saklıdır.</span>
     <span style={footerBottomRight}>Profesyonel Hukuki Danışmanlık</span>
   </div>
@@ -2844,164 +3022,3 @@ const introText = {
   fontWeight: "800",
   textAlign: "center",
 };
-
-
-/* MOBİL UYUMLULUK STİLLERİ */
-const mobileHeaderInner = {
-  width: "calc(100% - 24px)",
-  padding: "8px 0",
-  gap: "10px",
-};
-
-const mobileLogoBox = {
-  width: "210px",
-  height: "58px",
-  overflow: "hidden",
-  flexShrink: 1,
-};
-
-const mobileLogoStyle = {
-  width: "200px",
-  maxHeight: "54px",
-  transform: "scale(1)",
-  objectPosition: "left center",
-};
-
-const mobileNavStyle = {
-  display: "none",
-};
-
-const mobileHamburgerButton = {
-  display: "flex",
-  flexShrink: 0,
-};
-
-const mobileContentContainer = {
-  width: "calc(100% - 28px)",
-};
-
-const mobileHeroStyle = {
-  minHeight: "auto",
-  backgroundPosition: "center center",
-};
-
-const mobileHeroContentWrapper = {
-  width: "calc(100% - 28px)",
-  minHeight: "auto",
-  padding: "68px 0 52px 0",
-};
-
-const mobileHeroGrid = {
-  gridTemplateColumns: "1fr",
-  gap: "28px",
-};
-
-const mobileHeroTitle = {
-  fontSize: "42px",
-  lineHeight: 1.12,
-  letterSpacing: "-0.8px",
-};
-
-const mobileHeroText = {
-  fontSize: "16px",
-  lineHeight: 1.75,
-  maxWidth: "100%",
-};
-
-const mobileHeroButtonsStyle = {
-  flexDirection: "column",
-  gap: "12px",
-};
-
-const mobileStatsRow = {
-  display: "grid",
-  gridTemplateColumns: "repeat(2, minmax(0, 1fr))",
-  gap: "12px",
-};
-
-const mobileHeroServicePanel = {
-  gap: "14px",
-};
-
-const mobileTwoColumnGrid = {
-  gridTemplateColumns: "1fr",
-  gap: "30px",
-};
-
-const mobileAboutInfoGrid = {
-  gridTemplateColumns: "1fr",
-};
-
-const mobileAboutImageBox = {
-  height: "340px",
-  borderRadius: "22px",
-};
-
-const mobilePracticeGrid = {
-  gridTemplateColumns: "1fr",
-  gap: "22px",
-};
-
-const mobileTrustSectionStyle = {
-  padding: "72px 0",
-};
-
-const mobileTrustPanel = {
-  padding: "24px",
-  borderRadius: "22px",
-};
-
-const mobileTrustMiniCards = {
-  gridTemplateColumns: "1fr",
-};
-
-const mobileArticleToolbar = {
-  flexDirection: "column",
-  alignItems: "flex-start",
-};
-
-const mobileArticleGrid = {
-  gridTemplateColumns: "1fr",
-  gap: "22px",
-};
-
-const mobileContactGrid = {
-  gridTemplateColumns: "1fr",
-};
-
-const mobileFooterContainer = {
-  gridTemplateColumns: "1fr",
-  gap: "28px",
-  padding: "44px 0 32px 0",
-};
-
-const mobileFooterBottom = {
-  flexDirection: "column",
-  alignItems: "flex-start",
-};
-
-const mobileWhatsappButton = {
-  right: "14px",
-  bottom: "14px",
-  height: "56px",
-  minWidth: "56px",
-  padding: "0 14px",
-};
-
-const mobileSectionTitle = {
-  fontSize: "32px",
-  lineHeight: 1.2,
-};
-
-const mobileAboutTitle = {
-  fontSize: "34px",
-};
-
-const mobileTrustTitle = {
-  fontSize: "34px",
-};
-
-const mobileContactTitle = {
-  fontSize: "32px",
-};
-
